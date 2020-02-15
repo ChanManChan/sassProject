@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*
 COLORS:
 
@@ -78,6 +79,74 @@ body {
     letter-spacing: 1.75rem;
     animation: moveInRight 1s ease-out; }
 
+.heading-secondary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  background-image: linear-gradient(to right, #7ed56f, #28b485);
+  display: inline-block;
+  /* below 'background-clip' and 'color' properties makes the text sit on top of the clipped background (according to the text) therefore we want to make the text invisible so that we can see the gradient through the text*/
+  -webkit-background-clip: text;
+  color: transparent;
+  transition: all 0.2s;
+  letter-spacing: 0.2rem; }
+  .heading-secondary:hover {
+    transform: skewY(2deg) skewX(15deg) scale(1.1);
+    text-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.2); }
+
+.heading-tertiary {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase; }
+
+.paragraph {
+  font-size: 1.6rem; }
+  .paragraph:not(:last-child) {
+    margin-bottom: 3rem; }
+
+.u-center-text {
+  /* for heading-secondary is an inline-block element and so if we set the parent to text-align center, then that inline block element inside it is treated  as text  and will therefore be centered in the parent*/
+  text-align: center; }
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem; }
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem; }
+
+.u-margin-bottom-small {
+  margin-bottom: 1.5rem; }
+
+.u-margin-top-big {
+  margin-top: 8rem; }
+
+.u-margin-top-huge {
+  margin-top: 10rem; }
+
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+  opacity: 0.15;
+  overflow: hidden; }
+  .bg-video__content {
+    /*This below height and width alone is not going to fix the video not filling up the section area properly
+    After setting 
+      height: 100%;
+      width: 100%;
+    the videos width is 100% of the section but it's now covering even less of our section. And that's because it is done to maintain the aspect ratio of this video...So, if it was wider before then of course it also was higher.
+
+    So, what do we do to actually occupy this entire section here, but also while maintaining the aspect ratio?
+    use object-fit: cover; property in CSS which is pretty similar to background-size: cover; which we do all the time with the background images (where it tries to cover the entire element with the image)
+    */
+    height: 100%;
+    width: 100%;
+    /*Of course it would work just the same with images. And so we can have one parent element and in there an image and then with object-fit: cover; we can make that image cover the parent element*/
+    object-fit: cover; }
+
 .btn:link, .btn:visited {
   text-transform: uppercase;
   text-decoration: none;
@@ -105,6 +174,12 @@ body {
   .btn--white::after {
     background-color: #fff; }
 
+.btn--green {
+  background-color: #55c57a;
+  color: #fff; }
+  .btn--green::after {
+    background-color: #55c57a; }
+
 .btn::after {
   content: '';
   display: inline-block;
@@ -121,9 +196,258 @@ body {
   animation: moveInBottom 0.5s ease-out 0.75s;
   animation-fill-mode: backwards; }
 
+.btn-text:link, .btn-text:visited {
+  font-size: 1.6rem;
+  color: #55c57a;
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px solid #55c57a;
+  padding: 3px;
+  transition: all 0.2s; }
+
+.btn-text:hover {
+  background-color: #55c57a;
+  color: #fff;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px); }
+
+.btn-text:active {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(0); }
+
+.card {
+  /*The perspective property is used to give a 3D-positioned element some perspective.
+
+  The perspective property defines how far the object is away from the user. So, a lower value will result in a more intensive 3D effect than a higher value.
+
+  When defining the perspective property for an element, it is the CHILD elements that get the perspective view, NOT the element itself, therefore make another div with a class of ".card__side" so that it gets affected because of the perspective property and rotates 180deg along the y-axis with a 3D effect*/
+  perspective: 150rem;
+  -moz-perspective: 150rem;
+  position: relative;
+  height: 52rem; }
+  .card__side {
+    height: 52rem;
+    transition: all 0.8s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /*now since i gave them an absolute position what the elements do is that they basically start fitting to their width, eg:- in our case the red one is wider than the green one because the word "FRONT" is wider than the word "BACK". We need to change that as well, therefore give them a width.
+    
+    backface-visibility: <--The backface-visibility property defines whether or not the back face of an element should be visible when facing the user.
+
+    The back face of an element is a mirror image of the front face being displayed.
+
+    This property is useful when an element is rotated. It lets you choose if the user should see the back face or not.*/
+    width: 100%;
+    backface-visibility: hidden;
+    /*The image will later on will overlap the parent element and border-rdius property will not take effect therefore set a property called overflow:hidden (because the image was overflowing the parent in the corners)*/
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+    /*<div class="card">  <--no longer has a height right now. card__side {.. have a height of 500px like we defined but the card div does not have a height why? its becasue its height collapsed, very similar to what happens when all the elements are floated but right now all the elements are on position: absolute and so they are also taken out of the natural flow and therefore the parent's collapsed and lost its height.
+      
+      For floats we have clearFix but for position: absolute there is actually no such fix. Therefore we have to specify the same height that we gave for the card__side to the parent (card) itself ie. 50rem*/ }
+    .card__side--front {
+      background-color: #fff; }
+    .card__side--back {
+      /*what does it mean that this side is the back side ?
+       The difference is that, the back side, in the beginning is already rotated 180deg*/
+      transform: rotateY(180deg); }
+      .card__side--back-1 {
+        background-image: linear-gradient(to right bottom, #ffb900, #ff7730); }
+      .card__side--back-2 {
+        background-image: linear-gradient(to right bottom, #7ed56f, #28b485); }
+      .card__side--back-3 {
+        background-image: linear-gradient(to right bottom, #2998ff, #5643fa); }
+  .card:hover .card__side--front {
+    transform: rotateY(-180deg); }
+  .card:hover .card__side--back {
+    transform: rotateY(0); }
+  .card__picture {
+    background-size: cover;
+    height: 23rem;
+    /*The background-blend-mode property defines how an element's background-image should blend with its background-color:*/
+    background-blend-mode: screen;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px; }
+    .card__picture--1 {
+      background-image: linear-gradient(to right bottom, #ffb900, #ff7730), url(../img/nat-5.jpg); }
+    .card__picture--2 {
+      background-image: linear-gradient(to right bottom, #7ed56f, #28b485), url(../img/nat-6.jpg); }
+    .card__picture--3 {
+      background-image: linear-gradient(to right bottom, #2998ff, #5643fa), url(../img/nat-7.jpg); }
+  .card__heading {
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    color: #fff;
+    position: absolute;
+    top: 12rem;
+    right: 2rem;
+    text-align: right;
+    width: 75%; }
+  .card__heading-span {
+    padding: 1rem 1.5rem;
+    /*by just adding padding to the entire element the right side of 'A' in the word 'SEA' and the left side of 'E' in the word 'EXPLORER', we dont have any space even after mentioning padding: 1rem 1.5rem why?
+    Because this element is treated as one line of text (basically as one element) where the padding gets applied on the left and on the right side, and the left is left side of the 'THE' and the right side is right of the 'EXPLORER' word.
+    
+    But what we want is to actually treat those two entities ('THE SEA' & 'EXPLORER') like as if they were two different elements and theres actually a way of doing that by using box-decoration-break: clone; */
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    /*what clone does is to simply apply all the decorations that we have in the selector which in this case is only the padding to all of the boxes that are created by an element just like in this case.
+    
+    So, one element, two boxes and both styled in the same way (with the same padding)*/ }
+    .card__heading-span--1 {
+      background-image: linear-gradient(to right bottom, rgba(255, 185, 0, 0.85), rgba(255, 119, 48, 0.85)); }
+    .card__heading-span--2 {
+      background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.85), rgba(40, 180, 133, 0.85)); }
+    .card__heading-span--3 {
+      background-image: linear-gradient(to right bottom, rgba(41, 152, 255, 0.85), rgba(86, 67, 250, 0.85)); }
+  .card__details {
+    padding: 3rem; }
+    .card__details ul {
+      list-style: none;
+      width: 80%;
+      /*we want this ul with 80% width to be centered in the container. How do we do that ? not absolute positioning or stuff like that but use margin : auto property (we are centering a block element inside of a block element so the simplest way is to simply use margin: 0 auto);*/
+      margin: 0 auto; }
+      .card__details ul li {
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 1rem; }
+        .card__details ul li:not(:last-child) {
+          border-bottom: 1px solid #eee; }
+  .card__cta {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center; }
+  .card__price-box {
+    text-align: center;
+    margin-bottom: 8rem;
+    color: #fff; }
+  .card__price-only {
+    font-size: 1.4rem;
+    text-transform: uppercase; }
+  .card__price-value {
+    font-size: 6rem;
+    font-weight: 100; }
+
+.composition {
+  position: relative; }
+  .composition__photo {
+    width: 55%;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+    border-radius: 2px;
+    /*as soon as we set the position to absolute on an element these elements will be placed according to a reference and the reference is the first parent that it encounters which has its position set to something and since we want this reference to be the composition, we want it to be positioned according to this composition element (therefore set that to position:relative)
+    */
+    position: absolute;
+    z-index: 10;
+    transition: all 0.2s;
+    outline-offset: 2rem; }
+    .composition__photo--p1 {
+      left: 0;
+      top: -2rem; }
+    .composition__photo--p2 {
+      right: 0;
+      top: 2rem; }
+    .composition__photo--p3 {
+      left: 20%;
+      top: 10rem; }
+    .composition__photo:hover {
+      transform: scale(1.05) translateY(-0.5rem);
+      box-shadow: 0 2.5rem 4rem rgba(0, 0, 0, 0.5);
+      z-index: 20;
+      outline: 1.5rem solid #55c57a;
+      /* now go to &__photo {....} and set the outline-offset: 2rem; <--and this will give us the space between the outline and the element on which the outline is applied*/ }
+  .composition:hover .composition__photo:not(:hover) {
+    transform: scale(0.95); }
+
+.feature-box {
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s; }
+  .feature-box__icon {
+    font-size: 6rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    background-image: linear-gradient(to right, #7ed56f, #28b485);
+    -webkit-background-clip: text;
+    color: transparent; }
+  .feature-box:hover {
+    transform: translateY(-1.5rem) scale(1.03); }
+
+.story {
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 3px;
+  padding: 6rem;
+  padding-left: 9rem;
+  font-size: 1.6rem;
+  transform: skewX(-12deg);
+  /*
+    Direct children
+    *figure ("story__shape")
+    *div ("story__text")
+  */ }
+  .story__shape {
+    width: 15rem;
+    height: 15rem;
+    float: left;
+    /*The shape-outside property controls how content will wrap around a floated element’s bounding-box. Typically this is so that text can reflow over a shape such as a circle, ellipse or a polygon:*/
+    -webkit-shape-outside: circle(50% at 50% 50%);
+    shape-outside: circle(50% at 50% 50%);
+    -webkit-clip-path: circle(50% at 50% 50%);
+    clip-path: circle(50% at 50% 50%);
+    /*best way to move around an element that is floated is actually not to mess with margin or anything like that but we should just use a transform*/
+    transform: translateX(-3rem) skewX(12deg);
+    /* the transform: translateX(-3rem); line pushes the circle into the padding region of the "story" div therefore adjust for that above with padding-left: 9rem (already 6 rem and +3rem to compensate for the translateX(-3rem) circle)*/
+    position: relative; }
+  .story__image {
+    /*the image will take all of the entire space (2000x1333) and thats because we didnt give it a width (also flexible images for responsive web design they always need a width)*/
+    /*this image is inside <figure class="story__shape"> which has well defined width and so if we say width: 100%, that will be 100% of the parent therefore 15rem */
+    /*the image does not look good because it is wider than its height and so if we gave it a 100% width, then, of course, it cannot fill this entire circle therefore it shouldnt be width: 100% but height: 100%*/
+    /*
+      width: 100% <-- resized image dimensions = 150 x 99.97 <-- height not sufficient (needed 150px at least)
+      height: 100% <-- resized image dimensions = 225.05 x 150 <--both height and width sufficient
+    */
+    height: 100%;
+    /*whenever we are dealing with animations and translating stuff, when something wierd happens then many time backface-visibility: hidden; will fix the issue*/
+    transform: translateX(-4rem) scale(1.4);
+    transition: all 0.5s;
+    backface-visibility: hidden; }
+  .story__text {
+    transform: skewX(12deg); }
+  .story__caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20%);
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 1.7rem;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.5s;
+    backface-visibility: hidden; }
+  .story:hover .story__caption {
+    opacity: 1;
+    transform: translate(-50%, -50%); }
+  .story:hover .story__image {
+    transform: translateX(-4rem) scale(1);
+    filter: blur(3px) brightness(80%); }
+
 .row {
   max-width: 114rem;
-  background-color: #eee;
   margin: 0 auto; }
   .row:not(:last-child) {
     margin-bottom: 8rem; }
@@ -132,7 +456,6 @@ body {
     display: table;
     clear: both; }
   .row [class^='col-'] {
-    background-color: orangered;
     float: left; }
     .row [class^='col-']:not(:last-child) {
       margin-right: 6rem; }
@@ -155,7 +478,8 @@ body {
   background-size: cover;
   background-position: top;
   position: relative;
-  clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%); }
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); }
   .header__logo-box {
     position: absolute;
     top: 4rem;
@@ -168,3 +492,28 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center; }
+
+.section-about {
+  background-color: #f7f7f7;
+  padding: 25rem 0;
+  /*why margin-top: -20vh ? because  header height: 95vh; and clip-path: polygon(0 0, 100% 0, 100% --> 75vh <--, 0 100%); 95vh -75vh = 20vh (to kind of move up this section to hide the white triangle)*/
+  margin-top: -20vh; }
+
+.section-features {
+  padding: 20rem 0;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)), url(../img/nat-4.jpg);
+  /*cover:-	Resize the background image to cover the entire container, even if it has to stretch the image or cut a little bit off one of the edges*/
+  background-size: cover;
+  transform: skewY(-7deg);
+  margin-top: -11.3rem; }
+  .section-features > * {
+    transform: skewY(7deg); }
+
+.section-tours {
+  background-color: #f7f7f7;
+  padding: 25rem 0 15rem 0;
+  margin-top: -11.3rem; }
+
+.section-stories {
+  position: relative;
+  padding: 15rem 0; }
