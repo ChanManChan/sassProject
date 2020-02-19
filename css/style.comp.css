@@ -641,7 +641,9 @@ body {
     @media only screen and (max-width: 56.25em) {
       .popup__content {
         background-image: linear-gradient(105deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.8) 65%, transparent 65%), url(../img/nat-8.jpg);
-        background-size: cover; } }
+        background-size: cover;
+        background-position: left;
+        width: 95%; } }
   .popup__left {
     width: 33.333333%;
     display: table-cell; }
